@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shangma.cn.mapper.FreebieMapper">
+  <resultMap id="BaseResultMap" type="com.shangma.cn.entity.Freebie">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="freebie_name" jdbcType="VARCHAR" property="freebieName" />
+    <result column="freebie_category_id" jdbcType="BIGINT" property="freebieCategoryId" />
+    <result column="freebie_brand_id" jdbcType="BIGINT" property="freebieBrandId" />
+    <result column="freebie_model_num" jdbcType="VARCHAR" property="freebieModelNum" />
+    <result column="freebie_supplier_id" jdbcType="BIGINT" property="freebieSupplierId" />
+    <result column="freebie_desc" jdbcType="VARCHAR" property="freebieDesc" />
+    <result column="freebie_color" jdbcType="VARCHAR" property="freebieColor" />
+    <result column="freebie_price" jdbcType="DOUBLE" property="freebiePrice" />
+    <result column="freebie_num" jdbcType="INTEGER" property="freebieNum" />
+    <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+    <result column="creator_time" jdbcType="TIMESTAMP" property="creatorTime" />
+    <result column="update_id" jdbcType="BIGINT" property="updateId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, freebie_name, freebie_category_id, freebie_brand_id, freebie_model_num, freebie_supplier_id, 
+    freebie_desc, freebie_color, freebie_price, freebie_num, creator_id, creator_time, 
+    update_id, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.shangma.cn.entity.FreebieExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_freebie
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_freebie
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_freebie
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shangma.cn.entity.FreebieExample">
+    delete from tb_freebie
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shangma.cn.entity.Freebie">
+    insert into tb_freebie (id, freebie_name, freebie_category_id, 
+      freebie_brand_id, freebie_model_num, freebie_supplier_id, 
+      freebie_desc, freebie_color, freebie_price, 
+      freebie_num, creator_id, creator_time, 
+      update_id, update_time)
+    values (#{id,jdbcType=BIGINT}, #{freebieName,jdbcType=VARCHAR}, #{freebieCategoryId,jdbcType=BIGINT}, 
+      #{freebieBrandId,jdbcType=BIGINT}, #{freebieModelNum,jdbcType=VARCHAR}, #{freebieSupplierId,jdbcType=BIGINT}, 
+      #{freebieDesc,jdbcType=VARCHAR}, #{freebieColor,jdbcType=VARCHAR}, #{freebiePrice,jdbcType=DOUBLE}, 
+      #{freebieNum,jdbcType=INTEGER}, #{creatorId,jdbcType=BIGINT}, #{creatorTime,jdbcType=TIMESTAMP}, 
+      #{updateId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shangma.cn.entity.Freebie">
+    insert into tb_freebie
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="freebieName != null">
+        freebie_name,
+      </if>
+      <if test="freebieCategoryId != null">
+        freebie_category_id,
+      </if>
+      <if test="freebieBrandId != null">
+        freebie_brand_id,
+      </if>
+      <if test="freebieModelNum != null">
+        freebie_model_num,
+      </if>
+      <if test="freebieSupplierId != null">
+        freebie_supplier_id,
+      </if>
+      <if test="freebieDesc != null">
+        freebie_desc,
+      </if>
+      <if test="freebieColor != null">
+        freebie_color,
+      </if>
+      <if test="freebiePrice != null">
+        freebie_price,
+      </if>
+      <if test="freebieNum != null">
+        freebie_num,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="creatorTime != null">
+        creator_time,
+      </if>
+      <if test="updateId != null">
+        update_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="freebieName != null">
+        #{freebieName,jdbcType=VARCHAR},
+      </if>
+      <if test="freebieCategoryId != null">
+        #{freebieCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="freebieBrandId != null">
+        #{freebieBrandId,jdbcType=BIGINT},
+      </if>
+      <if test="freebieModelNum != null">
+        #{freebieModelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="freebieSupplierId != null">
+        #{freebieSupplierId,jdbcType=BIGINT},
+      </if>
+      <if test="freebieDesc != null">
+        #{freebieDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="freebieColor != null">
+        #{freebieColor,jdbcType=VARCHAR},
+      </if>
+      <if test="freebiePrice != null">
+        #{freebiePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="freebieNum != null">
+        #{freebieNum,jdbcType=INTEGER},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=BIGINT},
+      </if>
+      <if test="creatorTime != null">
+        #{creatorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shangma.cn.entity.FreebieExample" resultType="java.lang.Long">
+    select count(*) from tb_freebie
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_freebie
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.freebieName != null">
+        freebie_name = #{record.freebieName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.freebieCategoryId != null">
+        freebie_category_id = #{record.freebieCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.freebieBrandId != null">
+        freebie_brand_id = #{record.freebieBrandId,jdbcType=BIGINT},
+      </if>
+      <if test="record.freebieModelNum != null">
+        freebie_model_num = #{record.freebieModelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.freebieSupplierId != null">
+        freebie_supplier_id = #{record.freebieSupplierId,jdbcType=BIGINT},
+      </if>
+      <if test="record.freebieDesc != null">
+        freebie_desc = #{record.freebieDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.freebieColor != null">
+        freebie_color = #{record.freebieColor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.freebiePrice != null">
+        freebie_price = #{record.freebiePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.freebieNum != null">
+        freebie_num = #{record.freebieNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.creatorId != null">
+        creator_id = #{record.creatorId,jdbcType=BIGINT},
+      </if>
+      <if test="record.creatorTime != null">
+        creator_time = #{record.creatorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateId != null">
+        update_id = #{record.updateId,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_freebie
+    set id = #{record.id,jdbcType=BIGINT},
+      freebie_name = #{record.freebieName,jdbcType=VARCHAR},
+      freebie_category_id = #{record.freebieCategoryId,jdbcType=BIGINT},
+      freebie_brand_id = #{record.freebieBrandId,jdbcType=BIGINT},
+      freebie_model_num = #{record.freebieModelNum,jdbcType=VARCHAR},
+      freebie_supplier_id = #{record.freebieSupplierId,jdbcType=BIGINT},
+      freebie_desc = #{record.freebieDesc,jdbcType=VARCHAR},
+      freebie_color = #{record.freebieColor,jdbcType=VARCHAR},
+      freebie_price = #{record.freebiePrice,jdbcType=DOUBLE},
+      freebie_num = #{record.freebieNum,jdbcType=INTEGER},
+      creator_id = #{record.creatorId,jdbcType=BIGINT},
+      creator_time = #{record.creatorTime,jdbcType=TIMESTAMP},
+      update_id = #{record.updateId,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shangma.cn.entity.Freebie">
+    update tb_freebie
+    <set>
+      <if test="freebieName != null">
+        freebie_name = #{freebieName,jdbcType=VARCHAR},
+      </if>
+      <if test="freebieCategoryId != null">
+        freebie_category_id = #{freebieCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="freebieBrandId != null">
+        freebie_brand_id = #{freebieBrandId,jdbcType=BIGINT},
+      </if>
+      <if test="freebieModelNum != null">
+        freebie_model_num = #{freebieModelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="freebieSupplierId != null">
+        freebie_supplier_id = #{freebieSupplierId,jdbcType=BIGINT},
+      </if>
+      <if test="freebieDesc != null">
+        freebie_desc = #{freebieDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="freebieColor != null">
+        freebie_color = #{freebieColor,jdbcType=VARCHAR},
+      </if>
+      <if test="freebiePrice != null">
+        freebie_price = #{freebiePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="freebieNum != null">
+        freebie_num = #{freebieNum,jdbcType=INTEGER},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=BIGINT},
+      </if>
+      <if test="creatorTime != null">
+        creator_time = #{creatorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shangma.cn.entity.Freebie">
+    update tb_freebie
+    set freebie_name = #{freebieName,jdbcType=VARCHAR},
+      freebie_category_id = #{freebieCategoryId,jdbcType=BIGINT},
+      freebie_brand_id = #{freebieBrandId,jdbcType=BIGINT},
+      freebie_model_num = #{freebieModelNum,jdbcType=VARCHAR},
+      freebie_supplier_id = #{freebieSupplierId,jdbcType=BIGINT},
+      freebie_desc = #{freebieDesc,jdbcType=VARCHAR},
+      freebie_color = #{freebieColor,jdbcType=VARCHAR},
+      freebie_price = #{freebiePrice,jdbcType=DOUBLE},
+      freebie_num = #{freebieNum,jdbcType=INTEGER},
+      creator_id = #{creatorId,jdbcType=BIGINT},
+      creator_time = #{creatorTime,jdbcType=TIMESTAMP},
+      update_id = #{updateId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
