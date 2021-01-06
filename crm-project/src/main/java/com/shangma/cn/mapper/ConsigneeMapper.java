@@ -5,7 +5,7 @@ import com.shangma.cn.entity.ConsigneeExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface ConsigneeMapper {
+public interface ConsigneeMapper{
     long countByExample(ConsigneeExample example);
 
     int deleteByExample(ConsigneeExample example);

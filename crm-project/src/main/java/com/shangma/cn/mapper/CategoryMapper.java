@@ -3,9 +3,11 @@ package com.shangma.cn.mapper;
 import com.shangma.cn.entity.Category;
 import com.shangma.cn.entity.CategoryExample;
 import java.util.List;
+
+import com.shangma.cn.mapper.base.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
-public interface CategoryMapper {
+public interface CategoryMapper extends BaseMapper<Category> {
     long countByExample(CategoryExample example);
 
     int deleteByExample(CategoryExample example);

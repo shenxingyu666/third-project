@@ -5,12 +5,7 @@ import com.shangma.cn.vo.PageVo;
 
 import java.util.List;
 
-/**
- * 开发者：辉哥
- * 特点： 辉哥很帅
- * 开发时间：2021/1/4 17:27
- * 文件说明：
- */
+
 public interface BaseService<T> {
 
 

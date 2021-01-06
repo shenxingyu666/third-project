@@ -4,12 +4,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * 开发者：辉哥
- * 特点： 辉哥很帅
- * 开发时间：2021/1/4 17:22
- * 文件说明：
- */
+
 public interface BaseMapper<T> {
 
     long countByExample(Object example);

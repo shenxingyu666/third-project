@@ -3,12 +3,7 @@ package com.shangma.cn.common.http;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-/**
- * 开发者：辉哥
- * 特点： 辉哥很帅
- * 开发时间：2021/1/1 12:10
- * 文件说明：
- */
+
 @Data
 //转json的时候 只转 值不为null的
 @JsonInclude(JsonInclude.Include.NON_NULL)

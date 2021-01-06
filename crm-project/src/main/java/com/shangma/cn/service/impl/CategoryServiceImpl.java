@@ -13,12 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * 开发者：辉哥
- * 特点： 辉哥很帅
- * 开发时间：2021/1/4 17:37
- * 文件说明：
- */
+
 @Service
 @Transactional
 public class CategoryServiceImpl extends BaseServiceImpl<Category> implements CategoryService {

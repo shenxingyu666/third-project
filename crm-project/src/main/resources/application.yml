@@ -2,11 +2,13 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/huige?serverTimezone=UTC
+    url: jdbc:mysql://192.168.11.243:3306/db_thirdproject?serverTimezone=UTC&charsetEncoding=utf8
     username: root
-    password: rootroot
+    password: root
 
 mybatis:
-  mapper-locations: classpath:mapper/*.xml
+#  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
 server:
-  port: 9000
+  port: 9008
