@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class Brand extends BaseEntity {
-    private String brandName;
+    private String name;
 
     private String brandSite;
 
