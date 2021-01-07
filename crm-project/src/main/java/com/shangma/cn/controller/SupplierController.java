@@ -9,6 +9,8 @@ import com.shangma.cn.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("supplier")
@@ -42,9 +44,9 @@ public class SupplierController extends BaseController {
         return toAxios(supplierService.updateEntity(entity));
     }
 
-    @DeleteMapping("{id}")
-    public AxiosResult<Void> deleteById(@PathVariable Long id) {
-        return toAxios(supplierService.deleteById(id));
+    @DeleteMapping("{ids}")
+    public AxiosResult<Void> deleteById(@PathVariable List<Long> ids) {
+        return toAxios(supplierService.batchDeleteByIds(ids));
     }
 
 }
