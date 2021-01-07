@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 public class BaseController {
-
-
-
-
-
     public AxiosResult<Void> toAxios(int row) {
         return row > 0 ? AxiosResult.success() : AxiosResult.error();
     }
