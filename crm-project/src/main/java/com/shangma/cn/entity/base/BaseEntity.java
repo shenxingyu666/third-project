@@ -15,7 +15,7 @@ public class BaseEntity {
 
     private Date updateTime;
 
-    private Long updateId;
+    private Long updateEmpid;
 
 
     public void setData() {
@@ -23,7 +23,7 @@ public class BaseEntity {
             this.creatorId = 1L;
             this.addTime = new Date();
         } else {
-            this.updateId = 2L;
+            this.updateEmpid = 2L;
             this.updateTime = new Date();
         }
     }

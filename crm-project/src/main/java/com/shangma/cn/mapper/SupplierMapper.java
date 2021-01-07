@@ -2,29 +2,11 @@ package com.shangma.cn.mapper;
 
 import com.shangma.cn.entity.Supplier;
 import com.shangma.cn.entity.SupplierExample;
-import java.util.List;
+import com.shangma.cn.mapper.base.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
-public interface SupplierMapper {
-    long countByExample(SupplierExample example);
+import java.util.List;
 
-    int deleteByExample(SupplierExample example);
+public interface SupplierMapper extends BaseMapper<Supplier> {
 
-    int deleteByPrimaryKey(Long id);
-
-    int insert(Supplier record);
-
-    int insertSelective(Supplier record);
-
-    List<Supplier> selectByExample(SupplierExample example);
-
-    Supplier selectByPrimaryKey(Long id);
-
-    int updateByExampleSelective(@Param("record") Supplier record, @Param("example") SupplierExample example);
-
-    int updateByExample(@Param("record") Supplier record, @Param("example") SupplierExample example);
-
-    int updateByPrimaryKeySelective(Supplier record);
-
-    int updateByPrimaryKey(Supplier record);
 }
