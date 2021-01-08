@@ -181,4 +181,25 @@ public class ReflectionUtils {
 
         return null;
     }
+
+    public static Object myInvokeMethod(Object object, String methodName, Class<?> parameterTypes,
+                                      Object parameters){
+
+        Method method = null;
+        try {
+            method = object.getClass().getDeclaredMethod(methodName,parameterTypes);
+        } catch (NoSuchMethodException e) {
+            return null;
+        }
+
+        method.setAccessible(true);
+
+        try {
+            return method.invoke(object, parameters);
+        } catch (Exception e) {
+            log.error("ReflectionUtils:", "方法执行报错");
+        }
+
+        return null;
+    }
 }

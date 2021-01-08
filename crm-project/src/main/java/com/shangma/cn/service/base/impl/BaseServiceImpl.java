@@ -62,7 +62,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
     @Override
     public int addEntity(T entity) {
         ReflectionUtils.invokeMethod(entity, "setData", null, null);
-        return baseMapper.insert(entity);
+        return baseMapper.insertSelective(entity);
     }
 
 
