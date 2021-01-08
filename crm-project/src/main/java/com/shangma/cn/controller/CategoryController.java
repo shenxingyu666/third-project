@@ -51,9 +51,9 @@ public class CategoryController extends BaseController {
         return toAxios(categoryService.updateEntity(entity));
     }
 
-    @DeleteMapping("{id}")
-    public AxiosResult<Void> deleteById(@PathVariable Long id) {
-        return toAxios(categoryService.deleteById(id));
+    @DeleteMapping("{ids}")
+    public AxiosResult<Void> deleteById(@PathVariable List<Long> ids) {
+        return toAxios(categoryService.batchDeleteByIds(ids));
     }
 
 }

@@ -25,6 +25,7 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
         List<Category> root = categories.stream().filter(item -> item.getParentId().equals(0L)).collect(Collectors.toList());
 
         root.forEach(item -> {
+            item.setLabel(item.getCategoryName());
             getChildren(categories, item);
         });
         return root;
@@ -36,7 +37,9 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
         List<Category> children = list.stream().filter(item -> item.getParentId().equals(category.getId())).collect(Collectors.toList());
         if (children.size() > 0) {
             category.setChildren(children);
+            category.setLabel(category.getCategoryName());
             children.forEach(item -> {
+                item.setLabel(item.getCategoryName());
                 getChildren(list, item);
             });
         }
