@@ -46,4 +46,10 @@ public class FreebieController extends BaseController {
     public AxiosResult<Void> deleteById(@PathVariable Long id) {
         return toAxios(freebieService.deleteById(id));
     }
+
+    @GetMapping("findAllFreebie")
+    public  AxiosResult<PageVo<Freebie>> findAllFreebie(){
+        PageVo<Freebie> all = freebieService.findAll();
+        return AxiosResult.success(all);
+    }
 }

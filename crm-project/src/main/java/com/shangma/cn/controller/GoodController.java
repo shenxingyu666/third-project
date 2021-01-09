@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.controller.base.BaseController;
 import com.shangma.cn.entity.Brand;
+import com.shangma.cn.entity.Freebie;
 import com.shangma.cn.entity.Good;
 import com.shangma.cn.service.BrandService;
 import com.shangma.cn.service.GoodService;
@@ -46,5 +47,11 @@ public class GoodController extends BaseController {
     @DeleteMapping("{id}")
     public AxiosResult<Void> deleteById(@PathVariable Long id) {
         return toAxios(goodService.deleteById(id));
+    }
+
+    @GetMapping("findAllgood")
+    public  AxiosResult<PageVo<Good>> findAllgood(){
+        PageVo<Good> all = goodService.findAll();
+        return AxiosResult.success(all);
     }
 }
