@@ -7,6 +7,8 @@ public class ConsigneeOrder {
 
     private Long orderId;
 
+    private String goodName;
+
     private Long goodId;
 
     private Double goodPrice;
@@ -37,6 +39,14 @@ public class ConsigneeOrder {
 
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
+    }
+
+    public String getGoodName() {
+        return goodName;
+    }
+
+    public void setGoodName(String goodName) {
+        this.goodName = goodName == null ? null : goodName.trim();
     }
 
     public Long getGoodId() {

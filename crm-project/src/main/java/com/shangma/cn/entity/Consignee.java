@@ -1,9 +1,10 @@
 package com.shangma.cn.entity;
 
+import com.shangma.cn.entity.base.BaseEntity;
+
 import java.util.Date;
 
-public class Consignee {
-    private Long id;
+public class Consignee extends BaseEntity {
 
     private String consigneeName;
 
@@ -14,22 +15,6 @@ public class Consignee {
     private String consigneeSite;
 
     private String consigneeRemarks;
-
-    private Date addTime;
-
-    private Long creatorId;
-
-    private Date updateTime;
-
-    private Long updateEmpid;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getConsigneeName() {
         return consigneeName;
@@ -69,37 +54,5 @@ public class Consignee {
 
     public void setConsigneeRemarks(String consigneeRemarks) {
         this.consigneeRemarks = consigneeRemarks == null ? null : consigneeRemarks.trim();
-    }
-
-    public Date getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
-    }
-
-    public Long getCreatorId() {
-        return creatorId;
-    }
-
-    public void setCreatorId(Long creatorId) {
-        this.creatorId = creatorId;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Long getUpdateEmpid() {
-        return updateEmpid;
-    }
-
-    public void setUpdateEmpid(Long updateEmpid) {
-        this.updateEmpid = updateEmpid;
     }
 }

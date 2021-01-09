@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.shangma.cn.entity.ConsigneeOrder">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="good_name" jdbcType="VARCHAR" property="goodName" />
     <result column="good_id" jdbcType="BIGINT" property="goodId" />
     <result column="good_price" jdbcType="DOUBLE" property="goodPrice" />
     <result column="good_number" jdbcType="BIGINT" property="goodNumber" />
@@ -72,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, order_id, good_id, good_price, good_number, good_money, add_time, creator_id, 
-    update_time, update_empid
+    id, order_id, good_name, good_id, good_price, good_number, good_money, add_time, 
+    creator_id, update_time, update_empid
   </sql>
   <select id="selectByExample" parameterType="com.shangma.cn.entity.ConsigneeOrderExample" resultMap="BaseResultMap">
     select
@@ -106,14 +107,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shangma.cn.entity.ConsigneeOrder">
-    insert into tb_consignee_order (id, order_id, good_id, 
-      good_price, good_number, good_money, 
-      add_time, creator_id, update_time, 
-      update_empid)
-    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{goodId,jdbcType=BIGINT}, 
-      #{goodPrice,jdbcType=DOUBLE}, #{goodNumber,jdbcType=BIGINT}, #{goodMoney,jdbcType=DOUBLE}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateEmpid,jdbcType=BIGINT})
+    insert into tb_consignee_order (id, order_id, good_name, 
+      good_id, good_price, good_number, 
+      good_money, add_time, creator_id, 
+      update_time, update_empid)
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{goodName,jdbcType=VARCHAR}, 
+      #{goodId,jdbcType=BIGINT}, #{goodPrice,jdbcType=DOUBLE}, #{goodNumber,jdbcType=BIGINT}, 
+      #{goodMoney,jdbcType=DOUBLE}, #{addTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateEmpid,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.shangma.cn.entity.ConsigneeOrder">
     insert into tb_consignee_order
@@ -123,6 +124,9 @@
       </if>
       <if test="orderId != null">
         order_id,
+      </if>
+      <if test="goodName != null">
+        good_name,
       </if>
       <if test="goodId != null">
         good_id,
@@ -155,6 +159,9 @@
       </if>
       <if test="orderId != null">
         #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="goodName != null">
+        #{goodName,jdbcType=VARCHAR},
       </if>
       <if test="goodId != null">
         #{goodId,jdbcType=BIGINT},
@@ -197,6 +204,9 @@
       <if test="record.orderId != null">
         order_id = #{record.orderId,jdbcType=BIGINT},
       </if>
+      <if test="record.goodName != null">
+        good_name = #{record.goodName,jdbcType=VARCHAR},
+      </if>
       <if test="record.goodId != null">
         good_id = #{record.goodId,jdbcType=BIGINT},
       </if>
@@ -230,6 +240,7 @@
     update tb_consignee_order
     set id = #{record.id,jdbcType=BIGINT},
       order_id = #{record.orderId,jdbcType=BIGINT},
+      good_name = #{record.goodName,jdbcType=VARCHAR},
       good_id = #{record.goodId,jdbcType=BIGINT},
       good_price = #{record.goodPrice,jdbcType=DOUBLE},
       good_number = #{record.goodNumber,jdbcType=BIGINT},
@@ -247,6 +258,9 @@
     <set>
       <if test="orderId != null">
         order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="goodName != null">
+        good_name = #{goodName,jdbcType=VARCHAR},
       </if>
       <if test="goodId != null">
         good_id = #{goodId,jdbcType=BIGINT},
@@ -278,6 +292,7 @@
   <update id="updateByPrimaryKey" parameterType="com.shangma.cn.entity.ConsigneeOrder">
     update tb_consignee_order
     set order_id = #{orderId,jdbcType=BIGINT},
+      good_name = #{goodName,jdbcType=VARCHAR},
       good_id = #{goodId,jdbcType=BIGINT},
       good_price = #{goodPrice,jdbcType=DOUBLE},
       good_number = #{goodNumber,jdbcType=BIGINT},
