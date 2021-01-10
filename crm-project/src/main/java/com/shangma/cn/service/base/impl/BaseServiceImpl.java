@@ -78,6 +78,18 @@ public class BaseServiceImpl<T> implements BaseService<T> {
         return baseMapper.updateByPrimaryKey(entity);
     }
 
+    /**
+     * 修改
+     *
+     * @param entity
+     * @return
+     */
+    @Override
+    public int updateEntityByPrimaryKeySelective(T entity) {
+        ReflectionUtils.invokeMethod(entity, "setData", null, null);
+        return baseMapper.updateByPrimaryKeySelective(entity);
+    }
+
     @Override
     public int deleteById(Long id) {
         return baseMapper.deleteByPrimaryKey(id);

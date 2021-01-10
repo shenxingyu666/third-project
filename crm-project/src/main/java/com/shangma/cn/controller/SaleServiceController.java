@@ -1,5 +1,6 @@
 package com.shangma.cn.controller;
 
+import com.github.pagehelper.PageHelper;
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.controller.base.BaseController;
 import com.shangma.cn.dto.AddPhoneInOrderDto;
@@ -11,11 +12,21 @@ import com.shangma.cn.model.UniqueGood;
 import com.shangma.cn.service.ReturnFactoryOrderService;
 import com.shangma.cn.vo.PageVo;
 import com.shangma.cn.vo.ReturnOrderDetail;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.util.List;
 
 @RestController
@@ -31,7 +42,7 @@ public class SaleServiceController extends BaseController {
      */
     @PostMapping("getOutOrder")
     public AxiosResult<PageVo<ReturnFactoryOrder>> getOutOrder(@RequestBody ReturnOrderSearchDto searchDto) {
-        System.out.println(searchDto);
+        PageHelper.startPage((int) searchDto.getCurrentPage().longValue(), (int) searchDto.getPageSize().longValue());
         ReturnFactoryOrderExample orderExample = getExample(searchDto);
         orderExample.createCriteria().andOrderStatusEqualTo("返厂出库单");
         PageVo<ReturnFactoryOrder> all = returnFactoryOrderService.findAll(orderExample);
@@ -53,17 +64,17 @@ public class SaleServiceController extends BaseController {
         if (searchDto.getCreatorId() != null) {
             criteria.andCreatorIdEqualTo(searchDto.getCreatorId());
         }
-        if(searchDto.getAddTime1()!=null && searchDto.getAddTime2()!=null){
+        if (searchDto.getAddTime1() != null && searchDto.getAddTime2() != null) {
             criteria.andAddTimeBetween(searchDto.getAddTime1(), searchDto.getAddTime2());
         }
-        if(searchDto.getAddTime1()!=null && searchDto.getAddTime2()==null){
+        if (searchDto.getAddTime1() != null && searchDto.getAddTime2() == null) {
             criteria.andAddTimeGreaterThan(searchDto.getAddTime1());
         }
 
-        if(searchDto.getApprovalTime1()!=null && searchDto.getApprovalTime2()!=null){
-            criteria.andUpdateTimeBetween(searchDto.getAddTime1(), searchDto.getAddTime2()).andApprovalStatusNotEqualTo("未审核");
+        if (searchDto.getApprovalTime1() != null && searchDto.getApprovalTime2() != null) {
+            criteria.andUpdateTimeBetween(searchDto.getApprovalTime1(), searchDto.getApprovalTime2()).andApprovalStatusNotEqualTo("未审核");
         }
-        if(searchDto.getApprovalTime1()!=null && searchDto.getApprovalTime2()==null){
+        if (searchDto.getApprovalTime1() != null && searchDto.getApprovalTime2() == null) {
             criteria.andUpdateTimeGreaterThan(searchDto.getApprovalTime1()).andApprovalStatusNotEqualTo("未审核");
         }
         return orderExample;
@@ -90,7 +101,12 @@ public class SaleServiceController extends BaseController {
      */
     @PostMapping("addOutOrderDetail")
     public AxiosResult<Void> addOutOrderDetail(@RequestBody RetrunFactoryOrderDto order) {
-        int i = returnFactoryOrderService.addOrder(order);
+        int i = 0;
+        try {
+            i = returnFactoryOrderService.addOrder(order);
+        } catch (Exception e) {
+            return toAxios(0);
+        }
         return toAxios(i);
     }
 
@@ -112,7 +128,13 @@ public class SaleServiceController extends BaseController {
      */
     @PostMapping("pushPhoneInOrder")
     public AxiosResult<Void> pushPhoneInOrder(@RequestBody AddPhoneInOrderDto phoneAndOrderId) {
-        return toAxios(returnFactoryOrderService.pushPhoneInOrder(phoneAndOrderId));
+        int i = 0;
+        try {
+            i = returnFactoryOrderService.pushPhoneInOrder(phoneAndOrderId);
+        } catch (Exception e) {
+            return toAxios(0);
+        }
+        return toAxios(i);
     }
 
     /**
@@ -131,7 +153,52 @@ public class SaleServiceController extends BaseController {
      */
     @PutMapping("updateOutOrderDetail")
     public AxiosResult<Void> updateOutOrderDetail(@RequestBody RetrunFactoryOrderDto order) {
-        int i = returnFactoryOrderService.updateOrder(order);
+        int i = 0;
+        try {
+            i = returnFactoryOrderService.updateOrder(order);
+        } catch (Exception e) {
+            return toAxios(0);
+        }
         return toAxios(i);
+    }
+
+    /**
+     * 导出
+     */
+    @GetMapping("export")
+    public ResponseEntity<byte[]> export(@RequestParam(defaultValue = "1") int currentPage
+            , @RequestParam(defaultValue = "5") int pageSize) throws IOException {
+        PageHelper.startPage(currentPage,pageSize);
+        List<ReturnFactoryOrder> allEmployee = returnFactoryOrderService.getAll();
+        //创建工作簿
+        Workbook workbook = new SXSSFWorkbook();
+        Sheet employeeList = workbook.createSheet("出库单列表");
+        //创建行若干
+        for (int i = 0; i < allEmployee.size(); i++) {
+            Row row = employeeList.createRow(i);
+            //创建单元格
+            row.createCell(0).setCellValue(allEmployee.get(i).getId());
+            row.createCell(1).setCellValue(allEmployee.get(i).getIoStatus());
+            row.createCell(2).setCellValue(allEmployee.get(i).getFactoryAddress());
+            row.createCell(3).setCellValue(allEmployee.get(i).getOrderStatus());
+            row.createCell(4).setCellValue(allEmployee.get(i).getAddTime());
+            row.createCell(5).setCellValue(String.valueOf(allEmployee.get(i).getApprovalStatus()));
+            row.createCell(4).setCellValue(allEmployee.get(i).getFixReason());
+        }
+
+        ByteArrayOutputStream memory = new ByteArrayOutputStream();
+        //工作簿写入内存中
+        workbook.write(memory);
+        workbook.close();
+        //把内存中的流转成字节数组
+        byte[] bytes = memory.toByteArray();
+
+        //让浏览器解析为 员工列表.xlsx
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentDispositionFormData("attachment", URLEncoder.encode("出库单列表.xlsx", "utf-8"));
+        ResponseEntity responseEntity = new ResponseEntity(bytes, httpHeaders, HttpStatus.OK);
+
+        memory.close();
+        return responseEntity;
     }
 }

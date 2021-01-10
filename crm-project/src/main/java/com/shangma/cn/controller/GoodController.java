@@ -30,6 +30,12 @@ public class GoodController extends BaseController {
         return AxiosResult.success(page);
     }
 
+    @GetMapping("all")
+    public AxiosResult<PageVo<Good>> findAll() {
+        PageVo<Good> page = goodService.findAll();
+        return AxiosResult.success(page);
+    }
+
     @GetMapping("{id}")
     public AxiosResult<Good> findById(@PathVariable Long id) {
         return AxiosResult.success(goodService.findById(id));

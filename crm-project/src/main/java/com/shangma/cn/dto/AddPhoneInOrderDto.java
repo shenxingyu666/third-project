@@ -8,4 +8,6 @@ public class AddPhoneInOrderDto {
     private Long goodUniqueId;
     private Long goodId;
     private String statusDesc;
+
 }
+

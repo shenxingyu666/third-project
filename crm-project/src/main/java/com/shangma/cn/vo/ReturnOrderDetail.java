@@ -18,4 +18,5 @@ import java.util.List;
 public class ReturnOrderDetail {
     private ReturnFactoryOrder order;
     private List<UniqueGood> list;
+
 }

@@ -1,8 +1,10 @@
 package com.shangma.cn.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.*;
+import java.util.Locale;
 
 
 @Slf4j
@@ -185,6 +187,20 @@ public class ReflectionUtils {
     public static Object myInvokeMethod(Object object, String methodName, Class<?> parameterTypes,
                                       Object parameters){
 
+        String mName = getMethodName(methodName);
+        try {
+            Field field = object.getClass().getDeclaredField(mName);
+            field.setAccessible( true );
+            String s = (String) field.get(object);
+            if(!StringUtils.isEmpty(s)){
+                return null;
+            }
+        } catch (NoSuchFieldException e) {
+            return null;
+        } catch (IllegalAccessException e) {
+            return null;
+        }
+
         Method method = null;
         try {
             method = object.getClass().getDeclaredMethod(methodName,parameterTypes);
@@ -201,5 +217,17 @@ public class ReflectionUtils {
         }
 
         return null;
+    }
+
+    public static String getMethodName(String name) {
+
+        if (name.startsWith("get") || name.startsWith("set")) {
+            name = name.substring(3);
+        }
+        if (name.length() == 1 || (name.length() > 1 && !Character.isUpperCase(name.charAt(1)))) {
+            name = name.substring(0, 1).toLowerCase(Locale.US) + name.substring(1);
+        }
+
+        return name;
     }
 }

@@ -35,25 +35,26 @@ public class ReturnFactoryOrderServiceImpl extends BaseServiceImpl<ReturnFactory
 
     /**
      * 根据单号查询单据
+     *
      * @param orderId
      * @return
      */
     @Override
-    public List<UniqueGood> returnOrderDetail(Long orderId){
+    public List<UniqueGood> returnOrderDetail(Long orderId) {
         FaultphoneFactoryExample example = new FaultphoneFactoryExample();
         example.createCriteria().andRetrunOrderIdEqualTo(orderId);
         List<FaultphoneFactory> list = faultphoneFactoryMapper.selectByExample(example);
         List<UniqueGood> uniqueGoods = new ArrayList<>(8);
 
-        list.forEach(i->{
+        list.forEach(i -> {
             StorePhone storePhone = storePhoneMapper.selectByPrimaryKey(i.getGoodUniqueId());
             UniqueGood uniqueGood = new UniqueGood();
             uniqueGood.setStatusDesc(storePhone.getStatusDesc());
             Long goodId = storePhone.getGoodId();
             Good good = goodMapper.selectByPrimaryKey(goodId);
-            if(good != null){
+            if (good != null) {
                 good.setId(storePhone.getGoodUniqueId());
-                BeanUtils.copyProperties(good,uniqueGood);
+                BeanUtils.copyProperties(good, uniqueGood);
             }
             uniqueGoods.add(uniqueGood);
         });
@@ -62,30 +63,27 @@ public class ReturnFactoryOrderServiceImpl extends BaseServiceImpl<ReturnFactory
 
     /**
      * 添加返厂出库单
+     *
      * @param order
      * @return
      */
     @Override
-    public int addOrder(RetrunFactoryOrderDto order) {
+    public int addOrder(RetrunFactoryOrderDto order) throws Exception {
 
-        try {
-            ReturnFactoryOrder returnFactoryOrder = getObject(ReturnFactoryOrder.class,order);
-            this.addEntity(returnFactoryOrder);
-            List<StorePhone> list = order.getList();
-            list.forEach(i->{
-                storePhoneMapper.insert(i);
-                faultphoneFactoryMapper.insert(new FaultphoneFactory(i.getGoodUniqueId(),returnFactoryOrder.getId()));
-            });
-            return 1;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return 0;
-        }
+        ReturnFactoryOrder returnFactoryOrder = getObject(ReturnFactoryOrder.class, order);
+        this.addEntity(returnFactoryOrder);
+        List<StorePhone> list = order.getList();
+        list.forEach(i -> {
+            storePhoneMapper.insert(i);
+            faultphoneFactoryMapper.insert(new FaultphoneFactory(i.getGoodUniqueId(), returnFactoryOrder.getId()));
+        });
+        return 1;
 
     }
 
     /**
      * deletePhoneInOrder
+     *
      * @param id
      * @return
      */
@@ -104,51 +102,45 @@ public class ReturnFactoryOrderServiceImpl extends BaseServiceImpl<ReturnFactory
 
     /**
      * pushPhoneInOrder
+     *
      * @param phoneAndOrderId
      * @return
      */
     @Override
-    public int pushPhoneInOrder(AddPhoneInOrderDto phoneAndOrderId) {
-        try {
-            FaultphoneFactory object = getObject(FaultphoneFactory.class, phoneAndOrderId);
-            System.out.println(object);
-            faultphoneFactoryMapper.insert(object);
-            storePhoneMapper.insert(getObject(StorePhone.class, phoneAndOrderId));
-            return 1;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-        return 0;
+    public int pushPhoneInOrder(AddPhoneInOrderDto phoneAndOrderId) throws Exception {
+
+        FaultphoneFactory object = getObject(FaultphoneFactory.class, phoneAndOrderId);
+        System.out.println(object);
+        faultphoneFactoryMapper.insert(object);
+        storePhoneMapper.insert(getObject(StorePhone.class, phoneAndOrderId));
+        return 1;
+
     }
 
     /**
      * 三个表更新
+     *
      * @param order
      * @return
      */
     @Override
-    public int updateOrder(RetrunFactoryOrderDto order) {
-        try {
-            this.updateEntity(getObject(ReturnFactoryOrder.class,order));
-            List<StorePhone> list = order.getList();
-            list.forEach(i->{
-                storePhoneMapper.updateByPrimaryKey(i);
-            });
-            return 1;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
+    public int updateOrder(RetrunFactoryOrderDto order) throws Exception {
+        log.error(order.toString());
+        ReturnFactoryOrder object = getObject(ReturnFactoryOrder.class, order);
+        log.error(object.toString());
+        this.updateEntityByPrimaryKeySelective(object);
+        return 1;
     }
 
     /**
      * 根据单号删除单据
+     *
      * @param orderIds
      * @return
      */
     @Override
     public int batchDeleteOrder(List<Long> orderIds) {
-        orderIds.forEach(i->{
+        orderIds.forEach(i -> {
             FaultphoneFactoryExample example = new FaultphoneFactoryExample();
             example.createCriteria().andRetrunOrderIdEqualTo(i);
             faultphoneFactoryMapper.deleteByExample(example);
@@ -157,11 +149,21 @@ public class ReturnFactoryOrderServiceImpl extends BaseServiceImpl<ReturnFactory
         return 1;
     }
 
-    public <T> T getObject(Class<T> t, Object obj) throws Exception{
+    /**
+     * 获得全部
+     * @return
+     */
+    @Override
+    public List<ReturnFactoryOrder> getAll() {
+        return getBaseMapper().selectByExample(null);
+    }
+
+    public <T> T getObject(Class<T> t, Object obj) throws Exception {
         T t1 = t.newInstance();
-        BeanUtils.copyProperties(obj,t1);
-        ReflectionUtils.myInvokeMethod(t1,"setOrderStatus",String.class,"返厂出库单");
-        ReflectionUtils.myInvokeMethod(t1,"setIoStatus",String.class,"未出库");
+        BeanUtils.copyProperties(obj, t1);
+        ReflectionUtils.myInvokeMethod(t1, "setOrderStatus", String.class, "返厂出库单");
+        ReflectionUtils.myInvokeMethod(t1, "setIoStatus", String.class, "未出库");
+        ReflectionUtils.myInvokeMethod(t1, "setApprovalStatus", String.class, "未审核");
         return t1;
     }
 
