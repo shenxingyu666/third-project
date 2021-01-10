@@ -41,6 +41,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
         return list;
     }
 
+
     @Override
     public List<Order> conditionQuery() {
         OrderExample orderExample=new OrderExample();
@@ -68,39 +69,39 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
         OrderExample.Criteria criteria = orderExample.createCriteria();
         OrderExample.Criteria criteria1 = orderExample.createCriteria();
         OrderExample.Criteria criteria2 = orderExample.createCriteria();
-        if(orderVo.getId()!=-1){
+        if(orderVo.getId()!=0){
             criteria.andIdEqualTo(orderVo.getId());
         }
-        if(orderVo.getOrderTypeId()!=-1){
+        if(orderVo.getOrderTypeId()!=0){
             criteria.andOrderTypeIdEqualTo(orderVo.getOrderTypeId());
         }
-        if(orderVo.getOrderPayId()!=-1){
+        if(orderVo.getOrderPayId()!=0){
             criteria.andOrderPayIdEqualTo(orderVo.getOrderPayId());
         }
         if(!StringUtils.isEmpty(orderVo.getSearch())){
             criteria.andOrderMotionLike("%"+orderVo.getSearch()+"%");
         }
 
-        if(orderVo.getId()!=-1){
+        if(orderVo.getId()!=0){
             criteria1.andIdEqualTo(orderVo.getId());
         }
-        if(orderVo.getOrderTypeId()!=-1){
+        if(orderVo.getOrderTypeId()!=0){
             criteria1.andOrderTypeIdEqualTo(orderVo.getOrderTypeId());
         }
-        if(orderVo.getOrderPayId()!=-1){
+        if(orderVo.getOrderPayId()!=0){
             criteria1.andOrderPayIdEqualTo(orderVo.getOrderPayId());
         }
         if(!StringUtils.isEmpty(orderVo.getSearch())){
             criteria1.andBusinessTypeLike("%"+orderVo.getSearch()+"%");
         }
 
-        if(orderVo.getId()!=-1){
+        if(orderVo.getId()!=0){
             criteria2.andIdEqualTo(orderVo.getId());
         }
-        if(orderVo.getOrderTypeId()!=-1){
+        if(orderVo.getOrderTypeId()!=0){
             criteria2.andOrderTypeIdEqualTo(orderVo.getOrderTypeId());
         }
-        if(orderVo.getOrderPayId()!=-1){
+        if(orderVo.getOrderPayId()!=0){
             criteria2.andOrderPayIdEqualTo(orderVo.getOrderPayId());
         }
         if(!StringUtils.isEmpty(orderVo.getSearch())){
@@ -110,8 +111,6 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
         orderExample.or(criteria1);
         orderExample.or(criteria2);
         List<Order> orders = orderMapper.selectByExample(orderExample);
-        PageInfo<Order> pageInfo=new PageInfo<>(orders);
-        long total = pageInfo.getTotal();
         orders.forEach(order -> {
             //获取订单类型
             OrderType orderType = orderTypeMapper.selectByPrimaryKey(order.getOrderTypeId());
@@ -125,9 +124,20 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
             OrderType orderType2 = orderTypeMapper.selectByPrimaryKey(order.getOrderState());
             order.setOrderStateName(orderType2.getTypeName());
         });
-        PageVo<Order> pageVo=new PageVo<>(total,orders);
         System.out.println(orders);
         return orders;
+    }
+
+    @Override
+    public List<Order> Sales(List<Long> ids) {
+        List  list=new ArrayList<>();
+        ids.forEach(id->{
+            Order order = orderMapper.selectByPrimaryKey(id);
+            ConsigneeOrder consigneeOrder = consigneeOrderMapper.selectByPrimaryKey(order.getConsigneeId());
+            list.add(consigneeOrder);
+        });
+
+        return list;
     }
 
 

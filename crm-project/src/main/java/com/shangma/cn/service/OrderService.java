@@ -16,4 +16,6 @@ public interface OrderService extends BaseService<Order> {
    List<Order> conditionQuery();
 
    List<Order> search(OrderVo orderVo);
+
+   List<Order> Sales(List<Long> ids);
 }

@@ -9,6 +9,8 @@ import com.shangma.cn.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("order")
 public class OrderController {
@@ -38,5 +40,13 @@ public class OrderController {
         return AxiosResult.success(orderService.search(orderVo));
     }
 
+    @GetMapping("Sales")
+    public AxiosResult Sales(List<Long> ids){
+        return AxiosResult.success(orderService.Sales(ids));
+    }
 
+    @DeleteMapping("{ids}")
+    public AxiosResult delete(@PathVariable List<Long> ids){
+        return AxiosResult.success(orderService.batchDeleteByIds(ids));
+    }
 }
