@@ -3,6 +3,7 @@ package com.shangma.cn.controller;
 import com.github.pagehelper.PageHelper;
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.controller.base.BaseController;
+import com.shangma.cn.dto.GoodDTO;
 import com.shangma.cn.entity.Brand;
 import com.shangma.cn.entity.Freebie;
 import com.shangma.cn.entity.Good;
@@ -54,4 +55,19 @@ public class GoodController extends BaseController {
         PageVo<Good> all = goodService.findAll();
         return AxiosResult.success(all);
     }
+
+
+    @PostMapping("findAll")
+    public AxiosResult<PageVo<Good>> findPage(
+            @RequestParam(defaultValue = "1") int currentPage
+            , @RequestParam(defaultValue = "5") int pageSize,
+            @RequestBody GoodDTO goodDTO){
+
+        PageHelper.startPage(currentPage, pageSize);
+        PageVo<Good> page = goodService.findGood(goodDTO);
+        return AxiosResult.success(page);
+
+
+    }
+
 }

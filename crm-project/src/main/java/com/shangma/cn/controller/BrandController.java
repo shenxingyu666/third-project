@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.controller.base.BaseController;
 import com.shangma.cn.entity.Brand;
+import com.shangma.cn.entity.Category;
 import com.shangma.cn.service.BrandService;
 import com.shangma.cn.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,12 @@ public class BrandController  extends BaseController {
     @DeleteMapping("{ids}")
     public AxiosResult<Void> deleteById(@PathVariable List<Long> ids) {
         return toAxios(brandService.batchDeleteByIds(ids));
+    }
+
+    @GetMapping("findAllBrand")
+    public  AxiosResult<PageVo<Brand>> findAllBrand(){
+        PageVo<Brand> all = brandService.findAll();
+        return AxiosResult.success(all);
     }
 
 }

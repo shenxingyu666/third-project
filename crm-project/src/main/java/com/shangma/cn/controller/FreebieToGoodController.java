@@ -3,9 +3,12 @@ package com.shangma.cn.controller;
 import com.github.pagehelper.PageHelper;
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.controller.base.BaseController;
+import com.shangma.cn.dto.FreebieDto;
+import com.shangma.cn.dto.GoodDTO;
 import com.shangma.cn.entity.Brand;
 import com.shangma.cn.entity.Freebie;
 import com.shangma.cn.entity.FreebieToGood;
+import com.shangma.cn.entity.Good;
 import com.shangma.cn.service.BrandService;
 import com.shangma.cn.service.FreebieToGoodService;
 import com.shangma.cn.vo.PageVo;
@@ -54,5 +57,19 @@ public class FreebieToGoodController extends BaseController {
     public AxiosResult<Void> freebieChange(@PathVariable Long freebieId){
 
         return toAxios(freebieToGoodService.freebieChange(freebieId));
+    }
+
+
+    @PostMapping("findAll")
+    public AxiosResult<PageVo<FreebieToGood>> findPage(
+            @RequestParam(defaultValue = "1") int currentPage
+            , @RequestParam(defaultValue = "5") int pageSize,
+            @RequestBody FreebieDto freebieDto){
+
+        PageHelper.startPage(currentPage, pageSize);
+        PageVo<FreebieToGood> page = freebieToGoodService.find(freebieDto);
+        return AxiosResult.success(page);
+
+
     }
 }

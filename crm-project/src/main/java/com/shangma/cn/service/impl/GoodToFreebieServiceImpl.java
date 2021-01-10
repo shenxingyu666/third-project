@@ -1,16 +1,23 @@
 package com.shangma.cn.service.impl;
 
+import com.github.pagehelper.PageInfo;
+import com.shangma.cn.dto.FreebieDto;
 import com.shangma.cn.entity.Freebie;
 import com.shangma.cn.entity.Good;
 import com.shangma.cn.entity.GoodToFreebie;
+import com.shangma.cn.entity.GoodToFreebieExample;
 import com.shangma.cn.mapper.FreebieMapper;
 import com.shangma.cn.mapper.GoodMapper;
 import com.shangma.cn.mapper.GoodToFreebieMapper;
 import com.shangma.cn.service.GoodToFreebieService;
 import com.shangma.cn.service.base.impl.BaseServiceImpl;
+import com.shangma.cn.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 
 @Service
@@ -61,5 +68,39 @@ public class GoodToFreebieServiceImpl extends BaseServiceImpl<GoodToFreebie> imp
 
 
         return insert+insert1+i;
+    }
+
+    @Override
+    public PageVo<GoodToFreebie> find(FreebieDto freebieDto) {
+
+        GoodToFreebieExample goodToFreebieExample =new GoodToFreebieExample();
+        GoodToFreebieExample.Criteria criteria = goodToFreebieExample.createCriteria();
+
+        if(!StringUtils.isEmpty(freebieDto.getFreebieName())){
+            criteria.andGoodNameEqualTo(freebieDto.getFreebieName());
+        }
+
+        if(!StringUtils.isEmpty(freebieDto.getFreebieModelNum())){
+            criteria.andGoodModelNumEqualTo(freebieDto.getFreebieModelNum());
+        }
+
+        if(!StringUtils.isEmpty(freebieDto.getFreebieBrandId())){
+            criteria.andGoodBrandIdEqualTo(freebieDto.getFreebieBrandId());
+        }
+
+        if(!StringUtils.isEmpty(freebieDto.getFreebieCategoryId())){
+            criteria.andGoodCategoryIdEqualTo(freebieDto.getFreebieCategoryId());
+        }
+
+        List<GoodToFreebie> goodToFreebies = goodToFreebieMapper.selectByExample(goodToFreebieExample);
+        PageInfo<GoodToFreebie> pageInfo =new PageInfo<>(goodToFreebies);
+        long total = pageInfo.getTotal();
+
+        PageVo<GoodToFreebie> pageVo =new PageVo<>();
+        pageVo.setList(goodToFreebies);
+        pageVo.setTotal(total);
+        return pageVo;
+
+
     }
 }

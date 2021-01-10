@@ -3,6 +3,7 @@ package com.shangma.cn.controller;
 import com.github.pagehelper.PageHelper;
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.controller.base.BaseController;
+import com.shangma.cn.entity.Brand;
 import com.shangma.cn.entity.Supplier;
 import com.shangma.cn.service.SupplierService;
 import com.shangma.cn.vo.PageVo;
@@ -47,6 +48,13 @@ public class SupplierController extends BaseController {
     @DeleteMapping("{ids}")
     public AxiosResult<Void> deleteById(@PathVariable List<Long> ids) {
         return toAxios(supplierService.batchDeleteByIds(ids));
+    }
+
+
+    @GetMapping("findAllSupplier")
+    public  AxiosResult<PageVo<Supplier>> findAllSupplier(){
+        PageVo<Supplier> all = supplierService.findAll();
+        return AxiosResult.success(all);
     }
 
 }

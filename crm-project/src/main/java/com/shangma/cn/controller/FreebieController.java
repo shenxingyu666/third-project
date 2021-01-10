@@ -3,6 +3,8 @@ package com.shangma.cn.controller;
 import com.github.pagehelper.PageHelper;
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.controller.base.BaseController;
+import com.shangma.cn.dto.FreebieDto;
+import com.shangma.cn.dto.GoodDTO;
 import com.shangma.cn.entity.Freebie;
 import com.shangma.cn.entity.Good;
 import com.shangma.cn.service.FreebieService;
@@ -51,5 +53,18 @@ public class FreebieController extends BaseController {
     public  AxiosResult<PageVo<Freebie>> findAllFreebie(){
         PageVo<Freebie> all = freebieService.findAll();
         return AxiosResult.success(all);
+    }
+
+    @PostMapping("findAll")
+    public AxiosResult<PageVo<Freebie>> findPage(
+            @RequestParam(defaultValue = "1") int currentPage
+            , @RequestParam(defaultValue = "5") int pageSize,
+            @RequestBody FreebieDto freebieDto){
+
+        PageHelper.startPage(currentPage, pageSize);
+        PageVo<Freebie> page = freebieService.findFreebie(freebieDto);
+        return AxiosResult.success(page);
+
+
     }
 }

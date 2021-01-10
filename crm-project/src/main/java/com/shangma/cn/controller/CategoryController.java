@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.controller.base.BaseController;
 import com.shangma.cn.entity.Category;
+import com.shangma.cn.entity.Freebie;
 import com.shangma.cn.service.CategoryService;
 import com.shangma.cn.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,12 @@ public class CategoryController extends BaseController {
     @DeleteMapping("{ids}")
     public AxiosResult<Void> deleteById(@PathVariable List<Long> ids) {
         return toAxios(categoryService.batchDeleteByIds(ids));
+    }
+
+    @GetMapping("findAllCategory")
+    public  AxiosResult<PageVo<Category>> findAllFreebie(){
+        PageVo<Category> all = categoryService.findAll();
+        return AxiosResult.success(all);
     }
 
 }
