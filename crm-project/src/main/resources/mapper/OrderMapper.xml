@@ -3,12 +3,14 @@
 <mapper namespace="com.shangma.cn.mapper.OrderMapper">
   <resultMap id="BaseResultMap" type="com.shangma.cn.entity.Order">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="order_type" jdbcType="VARCHAR" property="orderType" />
+    <result column="order_type_id" jdbcType="BIGINT" property="orderTypeId" />
     <result column="good_id" jdbcType="BIGINT" property="goodId" />
-    <result column="business_type" jdbcType="VARCHAR" property="businessType" />
+    <result column="consigneeorder_id" jdbcType="BIGINT" property="consigneeorderId" />
     <result column="order_motion" jdbcType="VARCHAR" property="orderMotion" />
+    <result column="consignee_id" jdbcType="BIGINT" property="consigneeId" />
+    <result column="business_type" jdbcType="VARCHAR" property="businessType" />
     <result column="order_mode" jdbcType="VARCHAR" property="orderMode" />
-    <result column="order_pay" jdbcType="VARCHAR" property="orderPay" />
+    <result column="order_pay_id" jdbcType="BIGINT" property="orderPayId" />
     <result column="order_state" jdbcType="BIGINT" property="orderState" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
@@ -74,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, order_type, good_id, business_type, order_motion, order_mode, order_pay, order_state, 
-    add_time, creator_id, update_time, update_empid
+    id, order_type_id, good_id, consigneeorder_id, order_motion, consignee_id, business_type, 
+    order_mode, order_pay_id, order_state, add_time, creator_id, update_time, update_empid
   </sql>
   <select id="selectByExample" parameterType="com.shangma.cn.entity.OrderExample" resultMap="BaseResultMap">
     select
@@ -108,16 +110,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.shangma.cn.entity.Order">
-    insert into tb_order (id, order_type, good_id, 
-      business_type, order_motion, order_mode, 
-      order_pay, order_state, add_time, 
-      creator_id, update_time, update_empid
-      )
-    values (#{id,jdbcType=BIGINT}, #{orderType,jdbcType=VARCHAR}, #{goodId,jdbcType=BIGINT}, 
-      #{businessType,jdbcType=VARCHAR}, #{orderMotion,jdbcType=VARCHAR}, #{orderMode,jdbcType=VARCHAR}, 
-      #{orderPay,jdbcType=VARCHAR}, #{orderState,jdbcType=BIGINT}, #{addTime,jdbcType=TIMESTAMP}, 
-      #{creatorId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateEmpid,jdbcType=BIGINT}
-      )
+    insert into tb_order (id, order_type_id, good_id, 
+      consigneeorder_id, order_motion, consignee_id, 
+      business_type, order_mode, order_pay_id, 
+      order_state, add_time, creator_id, 
+      update_time, update_empid)
+    values (#{id,jdbcType=BIGINT}, #{orderTypeId,jdbcType=BIGINT}, #{goodId,jdbcType=BIGINT}, 
+      #{consigneeorderId,jdbcType=BIGINT}, #{orderMotion,jdbcType=VARCHAR}, #{consigneeId,jdbcType=BIGINT}, 
+      #{businessType,jdbcType=VARCHAR}, #{orderMode,jdbcType=VARCHAR}, #{orderPayId,jdbcType=BIGINT}, 
+      #{orderState,jdbcType=BIGINT}, #{addTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateEmpid,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.shangma.cn.entity.Order">
     insert into tb_order
@@ -125,23 +127,29 @@
       <if test="id != null">
         id,
       </if>
-      <if test="orderType != null">
-        order_type,
+      <if test="orderTypeId != null">
+        order_type_id,
       </if>
       <if test="goodId != null">
         good_id,
       </if>
-      <if test="businessType != null">
-        business_type,
+      <if test="consigneeorderId != null">
+        consigneeorder_id,
       </if>
       <if test="orderMotion != null">
         order_motion,
       </if>
+      <if test="consigneeId != null">
+        consignee_id,
+      </if>
+      <if test="businessType != null">
+        business_type,
+      </if>
       <if test="orderMode != null">
         order_mode,
       </if>
-      <if test="orderPay != null">
-        order_pay,
+      <if test="orderPayId != null">
+        order_pay_id,
       </if>
       <if test="orderState != null">
         order_state,
@@ -163,23 +171,29 @@
       <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="orderType != null">
-        #{orderType,jdbcType=VARCHAR},
+      <if test="orderTypeId != null">
+        #{orderTypeId,jdbcType=BIGINT},
       </if>
       <if test="goodId != null">
         #{goodId,jdbcType=BIGINT},
       </if>
-      <if test="businessType != null">
-        #{businessType,jdbcType=VARCHAR},
+      <if test="consigneeorderId != null">
+        #{consigneeorderId,jdbcType=BIGINT},
       </if>
       <if test="orderMotion != null">
         #{orderMotion,jdbcType=VARCHAR},
       </if>
+      <if test="consigneeId != null">
+        #{consigneeId,jdbcType=BIGINT},
+      </if>
+      <if test="businessType != null">
+        #{businessType,jdbcType=VARCHAR},
+      </if>
       <if test="orderMode != null">
         #{orderMode,jdbcType=VARCHAR},
       </if>
-      <if test="orderPay != null">
-        #{orderPay,jdbcType=VARCHAR},
+      <if test="orderPayId != null">
+        #{orderPayId,jdbcType=BIGINT},
       </if>
       <if test="orderState != null">
         #{orderState,jdbcType=BIGINT},
@@ -210,23 +224,29 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.orderType != null">
-        order_type = #{record.orderType,jdbcType=VARCHAR},
+      <if test="record.orderTypeId != null">
+        order_type_id = #{record.orderTypeId,jdbcType=BIGINT},
       </if>
       <if test="record.goodId != null">
         good_id = #{record.goodId,jdbcType=BIGINT},
       </if>
-      <if test="record.businessType != null">
-        business_type = #{record.businessType,jdbcType=VARCHAR},
+      <if test="record.consigneeorderId != null">
+        consigneeorder_id = #{record.consigneeorderId,jdbcType=BIGINT},
       </if>
       <if test="record.orderMotion != null">
         order_motion = #{record.orderMotion,jdbcType=VARCHAR},
       </if>
+      <if test="record.consigneeId != null">
+        consignee_id = #{record.consigneeId,jdbcType=BIGINT},
+      </if>
+      <if test="record.businessType != null">
+        business_type = #{record.businessType,jdbcType=VARCHAR},
+      </if>
       <if test="record.orderMode != null">
         order_mode = #{record.orderMode,jdbcType=VARCHAR},
       </if>
-      <if test="record.orderPay != null">
-        order_pay = #{record.orderPay,jdbcType=VARCHAR},
+      <if test="record.orderPayId != null">
+        order_pay_id = #{record.orderPayId,jdbcType=BIGINT},
       </if>
       <if test="record.orderState != null">
         order_state = #{record.orderState,jdbcType=BIGINT},
@@ -251,12 +271,14 @@
   <update id="updateByExample" parameterType="map">
     update tb_order
     set id = #{record.id,jdbcType=BIGINT},
-      order_type = #{record.orderType,jdbcType=VARCHAR},
+      order_type_id = #{record.orderTypeId,jdbcType=BIGINT},
       good_id = #{record.goodId,jdbcType=BIGINT},
-      business_type = #{record.businessType,jdbcType=VARCHAR},
+      consigneeorder_id = #{record.consigneeorderId,jdbcType=BIGINT},
       order_motion = #{record.orderMotion,jdbcType=VARCHAR},
+      consignee_id = #{record.consigneeId,jdbcType=BIGINT},
+      business_type = #{record.businessType,jdbcType=VARCHAR},
       order_mode = #{record.orderMode,jdbcType=VARCHAR},
-      order_pay = #{record.orderPay,jdbcType=VARCHAR},
+      order_pay_id = #{record.orderPayId,jdbcType=BIGINT},
       order_state = #{record.orderState,jdbcType=BIGINT},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       creator_id = #{record.creatorId,jdbcType=BIGINT},
@@ -269,23 +291,29 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.shangma.cn.entity.Order">
     update tb_order
     <set>
-      <if test="orderType != null">
-        order_type = #{orderType,jdbcType=VARCHAR},
+      <if test="orderTypeId != null">
+        order_type_id = #{orderTypeId,jdbcType=BIGINT},
       </if>
       <if test="goodId != null">
         good_id = #{goodId,jdbcType=BIGINT},
       </if>
-      <if test="businessType != null">
-        business_type = #{businessType,jdbcType=VARCHAR},
+      <if test="consigneeorderId != null">
+        consigneeorder_id = #{consigneeorderId,jdbcType=BIGINT},
       </if>
       <if test="orderMotion != null">
         order_motion = #{orderMotion,jdbcType=VARCHAR},
       </if>
+      <if test="consigneeId != null">
+        consignee_id = #{consigneeId,jdbcType=BIGINT},
+      </if>
+      <if test="businessType != null">
+        business_type = #{businessType,jdbcType=VARCHAR},
+      </if>
       <if test="orderMode != null">
         order_mode = #{orderMode,jdbcType=VARCHAR},
       </if>
-      <if test="orderPay != null">
-        order_pay = #{orderPay,jdbcType=VARCHAR},
+      <if test="orderPayId != null">
+        order_pay_id = #{orderPayId,jdbcType=BIGINT},
       </if>
       <if test="orderState != null">
         order_state = #{orderState,jdbcType=BIGINT},
@@ -307,12 +335,14 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shangma.cn.entity.Order">
     update tb_order
-    set order_type = #{orderType,jdbcType=VARCHAR},
+    set order_type_id = #{orderTypeId,jdbcType=BIGINT},
       good_id = #{goodId,jdbcType=BIGINT},
-      business_type = #{businessType,jdbcType=VARCHAR},
+      consigneeorder_id = #{consigneeorderId,jdbcType=BIGINT},
       order_motion = #{orderMotion,jdbcType=VARCHAR},
+      consignee_id = #{consigneeId,jdbcType=BIGINT},
+      business_type = #{businessType,jdbcType=VARCHAR},
       order_mode = #{orderMode,jdbcType=VARCHAR},
-      order_pay = #{orderPay,jdbcType=VARCHAR},
+      order_pay_id = #{orderPayId,jdbcType=BIGINT},
       order_state = #{orderState,jdbcType=BIGINT},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       creator_id = #{creatorId,jdbcType=BIGINT},
