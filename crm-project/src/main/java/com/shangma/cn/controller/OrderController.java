@@ -40,8 +40,9 @@ public class OrderController {
         return AxiosResult.success(orderService.search(orderVo));
     }
 
-    @GetMapping("Sales")
-    public AxiosResult Sales(List<Long> ids){
+    @PostMapping("{ids}")
+    public AxiosResult Sales(@PathVariable List<Long> ids){
+        System.out.println(ids);
         return AxiosResult.success(orderService.Sales(ids));
     }
 

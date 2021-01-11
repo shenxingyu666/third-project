@@ -105,63 +105,63 @@ public class ConsigneeExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andIdIsNull() {
-            addCriterion("id is null");
+        public Criteria andConsigneeIdIsNull() {
+            addCriterion("consignee_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andIdIsNotNull() {
-            addCriterion("id is not null");
+        public Criteria andConsigneeIdIsNotNull() {
+            addCriterion("consignee_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Long value) {
-            addCriterion("id =", value, "id");
+        public Criteria andConsigneeIdEqualTo(Long value) {
+            addCriterion("consignee_id =", value, "consigneeId");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Long value) {
-            addCriterion("id <>", value, "id");
+        public Criteria andConsigneeIdNotEqualTo(Long value) {
+            addCriterion("consignee_id <>", value, "consigneeId");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Long value) {
-            addCriterion("id >", value, "id");
+        public Criteria andConsigneeIdGreaterThan(Long value) {
+            addCriterion("consignee_id >", value, "consigneeId");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("id >=", value, "id");
+        public Criteria andConsigneeIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("consignee_id >=", value, "consigneeId");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Long value) {
-            addCriterion("id <", value, "id");
+        public Criteria andConsigneeIdLessThan(Long value) {
+            addCriterion("consignee_id <", value, "consigneeId");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Long value) {
-            addCriterion("id <=", value, "id");
+        public Criteria andConsigneeIdLessThanOrEqualTo(Long value) {
+            addCriterion("consignee_id <=", value, "consigneeId");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Long> values) {
-            addCriterion("id in", values, "id");
+        public Criteria andConsigneeIdIn(List<Long> values) {
+            addCriterion("consignee_id in", values, "consigneeId");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Long> values) {
-            addCriterion("id not in", values, "id");
+        public Criteria andConsigneeIdNotIn(List<Long> values) {
+            addCriterion("consignee_id not in", values, "consigneeId");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Long value1, Long value2) {
-            addCriterion("id between", value1, value2, "id");
+        public Criteria andConsigneeIdBetween(Long value1, Long value2) {
+            addCriterion("consignee_id between", value1, value2, "consigneeId");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Long value1, Long value2) {
-            addCriterion("id not between", value1, value2, "id");
+        public Criteria andConsigneeIdNotBetween(Long value1, Long value2) {
+            addCriterion("consignee_id not between", value1, value2, "consigneeId");
             return (Criteria) this;
         }
 
